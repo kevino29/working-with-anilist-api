@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/212d82f631.js" crossorigin="anonymous"></script>
+    <!-- <script src="main.js"></script> -->
+    <script src="my_list.js"></script>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <div id="app" class="min-vh-100">
+        <div class="container-fluid">
+            <div class="row justify-content-end">
+                <div class="col-sm-3">
+                    <div class="form-group input-group py-2">
+                        <input id="searchBox" class="form-control" placeholder="Search AniList Username"
+                            type="text">
+                        <div class="input-group-prepend">
+                            <span id="searchButton" class="btn btn-primary input-group-text"><i class="fas fa-search"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="container">
+            <div id="title" class="h1 d-block text-center py-4"></div>
+            <div id="results" class="row justify-content-center pb-4 mx-auto"></div>
+        </div>
+    </div>
+</body>
+</html>
