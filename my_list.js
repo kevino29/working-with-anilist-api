@@ -10,7 +10,6 @@ window.addEventListener('load', function () {
     // Here we define our query as a multi-line string
     // Storing it in a separate .graphql/.gql file is also possible
     let query = `
-        # Define which variables will be used in the query
         query ($search: String) {
             # Insert our variables into the query arguments (type: ANIME is hard-coded in the query)
             MediaListCollection (userName: $search, type: ANIME) {
@@ -22,6 +21,7 @@ window.addEventListener('load', function () {
                     entries {
                         media {
                             id
+                            type
                             siteUrl
                             title {
                                 romaji
@@ -78,8 +78,29 @@ window.addEventListener('load', function () {
     function handleData(data) {
         console.dir(data);
 
+        let mediaType = data.data.MediaListCollection.lists[0].entries[0].media.type;
+
         // Set the title
-        title.innerText = data.data.MediaListCollection.user.name + "'s List";
+        title.innerHTML = data.data.MediaListCollection.user.name + "'s " +
+        `
+            <div class="dropup" style="display:inline-block;">
+                <button
+                    class="btn btn-primary btn-lg dropdown-toggle"
+                    type="button"
+                    id="dropdownMenuButton"
+                    data-mdb-toggle="dropdown"
+                    aria-expanded="false"
+                    >
+                    ${mediaType}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><h6 class="dropdown-header">Select a media</h6></li>
+                    <li><button class="dropdown-item">ANIME</button></li>
+                    <li><button class="dropdown-item">MANGA</button></li>
+                </ul>
+            </div>
+            List
+        `;
 
         // Remove the previous result first, if there was any
         while (resultList.hasChildNodes()) {
