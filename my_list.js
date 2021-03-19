@@ -10,9 +10,8 @@ window.addEventListener('load', function () {
     // Here we define our query as a multi-line string
     // Storing it in a separate .graphql/.gql file is also possible
     let query = `
-        query ($search: String) {
-            # Insert our variables into the query arguments (type: ANIME is hard-coded in the query)
-            MediaListCollection (userName: $search, type: ANIME) {
+        query ($search: String, $type: MediaType) {
+            MediaListCollection (userName: $search, type: $type) {
                 user {
                     name
                 }
@@ -39,16 +38,24 @@ window.addEventListener('load', function () {
             }
         }
     `;
+
+    // Global var
+    let variables = {};
     
-    document.querySelector('#searchButton').addEventListener('click', (async () => {
+    document.querySelector('#searchButton').addEventListener('click', () => {
         if (searchQuery.value === null || searchQuery.value === undefined)
             return;
 
         // Define our query variables and values that will be used in the query request
-        let variables = {
-            search: searchQuery.value
+        variables = {
+            search: searchQuery.value,
+            type: 'ANIME',
         };
 
+        requestAPI(variables);
+    });
+
+    async function requestAPI(vars) {
         // Define the config we'll need for our Api request
         let options = {
             method: 'POST',
@@ -58,7 +65,7 @@ window.addEventListener('load', function () {
             },
             body: JSON.stringify({
                 query: query,
-                variables: variables
+                variables: vars
             })
         };
 
@@ -67,7 +74,26 @@ window.addEventListener('load', function () {
             .then(handleResponse)
             .then(handleData)
             .catch(handleError);
-    }));
+
+        // Add the select listeners after the title has been refreshed
+        // Add a listener when ANIME option is selected
+        document.querySelector('#animeSelect').addEventListener('click', () => {
+            variables = {
+                search: searchQuery.value,
+                type: 'ANIME',
+            };
+            requestAPI(variables);
+        });
+
+        // Add a listener when MANGA option is selected
+        document.querySelector('#mangaSelect').addEventListener('click', () => {
+            variables = {
+                search: searchQuery.value,
+                type: 'MANGA',
+            };
+            requestAPI(variables);
+        });
+    }
 
     function handleResponse(response) {
         return response.json().then(function (json) {
@@ -77,30 +103,7 @@ window.addEventListener('load', function () {
 
     function handleData(data) {
         console.dir(data);
-
-        let mediaType = data.data.MediaListCollection.lists[0].entries[0].media.type;
-
-        // Set the title
-        title.innerHTML = data.data.MediaListCollection.user.name + "'s " +
-        `
-            <div class="dropup" style="display:inline-block;">
-                <button
-                    class="btn btn-primary btn-lg dropdown-toggle"
-                    type="button"
-                    id="dropdownMenuButton"
-                    data-mdb-toggle="dropdown"
-                    aria-expanded="false"
-                    >
-                    ${mediaType}
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><h6 class="dropdown-header">Select a media</h6></li>
-                    <li><button class="dropdown-item">ANIME</button></li>
-                    <li><button class="dropdown-item">MANGA</button></li>
-                </ul>
-            </div>
-            List
-        `;
+        let newRow;
 
         // Remove the previous result first, if there was any
         while (resultList.hasChildNodes()) {
@@ -112,7 +115,38 @@ window.addEventListener('load', function () {
             lists.removeChild(lists.lastChild);
         }
 
-        let newRow;
+        if (data.data.MediaListCollection.lists.length > 0) {
+            let mediaType = data.data.MediaListCollection.lists[0].entries[0].media.type;
+
+            // Set the title
+            title.innerHTML = data.data.MediaListCollection.user.name + "'s " +
+            `
+                <div class="dropup" style="display:inline-block;">
+                    <button
+                        class="btn btn-primary btn-lg dropdown-toggle"
+                        type="button"
+                        id="dropdownMenuButton"
+                        data-mdb-toggle="dropdown"
+                        aria-expanded="false">
+                        ${mediaType}
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><h6 class="dropdown-header">Select a media</h6></li>
+                        <li><button id="animeSelect" class="dropdown-item">ANIME</button></li>
+                        <li><button id="mangaSelect" class="dropdown-item">MANGA</button></li>
+                    </ul>
+                </div>
+                List
+            `;
+        }
+        else {
+            resultList.innerHTML = 
+            `
+                <div class="h1 text-center">
+                    Hmm. It looks like that user has no ${variables.type.toLowerCase()} list.
+                </div>
+            `;
+        }
 
         data.data.MediaListCollection.lists
             .map((li, i) => {
