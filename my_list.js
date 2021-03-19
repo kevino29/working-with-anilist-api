@@ -1,5 +1,6 @@
 window.addEventListener('load', function () {
     let title = document.querySelector('#title');
+    let lists = document.querySelector('#list');
     let searchQuery = document.querySelector('#searchBox');
     let resultList = document.querySelector('#results');
 
@@ -85,12 +86,28 @@ window.addEventListener('load', function () {
             resultList.removeChild(resultList.lastChild);
         }
 
+        // Remove the previous list first, if there was any
+        while (lists.hasChildNodes()) {
+            lists.removeChild(lists.lastChild);
+        }
+
         let newRow;
 
         data.data.MediaListCollection.lists
-            .map(li => {
+            .map((li, i) => {
                 newRow = document.createElement('div');
                 newRow.classList.add('row', 'justify-content-center', 'pb-5', 'mx-auto');
+                newRow.id = 'list-' + i;
+
+                newList = document.createElement('li');
+                newList.classList.add('list-group-item', 'border-0')
+
+                let newListLink = document.createElement('a');
+                newListLink.innerText = li.name;
+                newListLink.href = '#list-' + i;
+
+                newList.appendChild(newListLink);
+                lists.appendChild(newList);
 
                 let newRowTitle = document.createElement('div');
                 newRowTitle.classList.add('h2', 'w-100', 'text-center', 'py-4');
