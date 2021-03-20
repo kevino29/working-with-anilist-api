@@ -411,11 +411,13 @@ hr.flaired-edges:before {
     border: 1px solid var(--theme) !important;
 }
 
+.card-img-md {
+    height: 250px;
+}
+
 .card-md {
-    min-width: 180px;
-    min-height: 330px;
-    max-width: 200px;
-    max-height: 350px;
+    width: 180px;
+    height: 350px;
 }
 
 .scroll-top-btn {

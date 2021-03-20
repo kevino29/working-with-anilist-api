@@ -242,7 +242,7 @@ window.addEventListener('load', function () {
     
             // Create a new image for the card
             let newImage = document.createElement('img');
-            newImage.classList.add('card-img-top', 'img-fluid');
+            newImage.classList.add('card-img-top', 'card-img-md', 'img-fluid');
             newImage.src = media.coverImage.large;
             newImage.alt = media.title.romaji;
     
