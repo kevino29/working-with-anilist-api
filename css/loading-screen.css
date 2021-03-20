@@ -17,7 +17,7 @@
     margin: -76px 0 0 -76px;
     border: 3px solid transparent;
     border-radius: 50%;
-    border-top: 3px solid #1266f1;
+    border-top: 3px solid #375a7f;
     -webkit-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
 }
@@ -46,7 +46,7 @@
     bottom: 15px;
     border-radius: 50%;
     border: 3px solid transparent;
-    border-top-color: #00b74a;
+    border-top-color: #00bc8c;
 
     -webkit-animation: spin 1.5s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
     animation: spin 1.5s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
