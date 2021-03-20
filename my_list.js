@@ -61,6 +61,12 @@ window.addEventListener('load', function () {
     });
 
     async function requestAPI(vars) {
+        // Clear the content of the page first
+        clearContent();
+
+        // Show a loading screen
+        showLoader();
+
         // Define the config we'll need for our Api request
         let options = {
             method: 'POST',
@@ -271,5 +277,11 @@ window.addEventListener('load', function () {
         while (lists.hasChildNodes()) {
             lists.removeChild(lists.lastChild);
         }
+    }
+
+    function showLoader() {
+        let loader = document.createElement('div');
+        loader.classList.add('loader');
+        resultList.appendChild(loader);
     }
 });
