@@ -426,3 +426,21 @@ hr.flaired-edges:before {
     bottom: 20px;
     right: 20px;
 }
+
+.minimize-scrollbar {
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    scrollbar-width: thin;
+}
+
+.minimize-scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}

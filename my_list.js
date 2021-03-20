@@ -224,7 +224,7 @@ window.addEventListener('load', function () {
     
             // Create a new card body
             let newCardBody = document.createElement('div');
-            newCardBody.classList.add('card-body', 'overflow-auto');
+            newCardBody.classList.add('card-body', 'overflow-auto', 'minimize-scrollbar');
     
             // Create a new title for the card
             let newLink = document.createElement('a');
