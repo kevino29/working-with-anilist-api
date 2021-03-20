@@ -284,4 +284,11 @@ window.addEventListener('load', function () {
         loader.classList.add('loader');
         resultList.appendChild(loader);
     }
+
+    // function addScrollspy() {
+    //     resultList.setAttribute('data-mdb-spy', 'scroll');
+    //     resultList.setAttribute('data-mdb-target', '#scrollspy');
+    //     resultList.setAttribute('data-mdb-offset', '0');
+    //     // data-mdb-spy="scroll" data-mdb-target="#scrollspy" data-mdb-offset="0"
+    // }
 });
