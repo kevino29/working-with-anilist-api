@@ -81,6 +81,9 @@ window.addEventListener('load', function () {
             .catch(handleError);
 
         // Add the select listeners after the title has been refreshed
+        if (!document.querySelector('#animeSelect') || !document.querySelector('#mangaSelect'))
+            return;
+
         // Add a listener when ANIME option is selected
         document.querySelector('#animeSelect').addEventListener('click', () => {
             variables = {
@@ -110,15 +113,7 @@ window.addEventListener('load', function () {
         console.dir(data);
         let newRow;
 
-        // Remove the previous result first, if there was any
-        while (resultList.hasChildNodes()) {
-            resultList.removeChild(resultList.lastChild);
-        }
-
-        // Remove the previous list first, if there was any
-        while (lists.hasChildNodes()) {
-            lists.removeChild(lists.lastChild);
-        }
+        clearContent();
 
         if (data.data.MediaListCollection.lists.length > 0) {
             let mediaType = data.data.MediaListCollection.lists[0].entries[0].media.type;
@@ -256,7 +251,25 @@ window.addEventListener('load', function () {
     }
 
     function handleError(error) {
-        // alert('Error, check console');
         console.error(error);
+
+        resultList.innerHTML = 
+        `
+            <div class="h1 text-center">
+                Oops! That user doesn't exist!<br/> Please try another user.
+            </div>
+        `;
+    }
+
+    function clearContent() {
+        // Remove the previous result first, if there was any
+        while (resultList.hasChildNodes()) {
+            resultList.removeChild(resultList.lastChild);
+        }
+
+        // Remove the previous list first, if there was any
+        while (lists.hasChildNodes()) {
+            lists.removeChild(lists.lastChild);
+        }
     }
 });
