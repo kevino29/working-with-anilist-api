@@ -1,7 +1,7 @@
 window.addEventListener('load', function () {
     let title = document.querySelector('#title');
     let lists = document.querySelector('#list');
-    let searchQuery = document.querySelector('#searchBox');
+    let searchElement = document.querySelector('#searchBox');
     let resultList = document.querySelector('#results');
 
     // Create the API Endpoint URL
@@ -39,16 +39,21 @@ window.addEventListener('load', function () {
         }
     `;
 
-    // Global var
+    // Global var object
     let variables = {};
+
+    // Global search query string
+    let searchQuery;
     
     document.querySelector('#searchButton').addEventListener('click', () => {
-        if (searchQuery.value === null || searchQuery.value === undefined)
+        if (searchElement.value === null || searchElement.value === undefined)
             return;
+        else
+            searchQuery = searchElement.value;
 
         // Define our query variables and values that will be used in the query request
         variables = {
-            search: searchQuery.value,
+            search: searchElement.value,
             type: 'ANIME',
         };
 
@@ -79,7 +84,7 @@ window.addEventListener('load', function () {
         // Add a listener when ANIME option is selected
         document.querySelector('#animeSelect').addEventListener('click', () => {
             variables = {
-                search: searchQuery.value,
+                search: searchQuery,
                 type: 'ANIME',
             };
             requestAPI(variables);
@@ -88,7 +93,7 @@ window.addEventListener('load', function () {
         // Add a listener when MANGA option is selected
         document.querySelector('#mangaSelect').addEventListener('click', () => {
             variables = {
-                search: searchQuery.value,
+                search: searchQuery,
                 type: 'MANGA',
             };
             requestAPI(variables);
